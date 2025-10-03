@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Papelería Dany</title>
+  <style>
+    /* === RESET Y ESTILO BASE === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    h2 {
+      color: #135597;
+    }
+
+    /* === NAVBAR === */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, #135597, #0d3a66);
+      padding: 10px 25px;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    /* Logo */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container img {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 18px rgba(241, 196, 15, 0.9);
+    }
+
+    .logo-container span {
+      font-size: 22px;
+      font-weight: bold;
+      color: #f1c40f;
+      letter-spacing: 1.5px;
+    }
+
+    /* Menú */
+    .menu {
+      display: flex;
+      gap: 25px;
+      position: relative;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .menu a:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #f1c40f;
+    }
+    .dropdown{
+      position: relative;
+    }
+
+    /* Submenú */
+    .submenu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #2c3e50;
+      border-radius: 8px;
+      min-width: 220px;
+      flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .submenu a {
+      padding: 12px 18px;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .submenu a:hover {
+      background: #34495e;
+      color: #f1c40f;
+    }
+
+    .dropdown:hover .submenu {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+/* BOTÓN HAMBURGUESA */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        flex-direction: column;
+        background: #0d3a66;
+        position: absolute;
+        top: 65px;
+        right: 0;
+        width: 200px;
+        padding: 15px;
+        border-radius: 8px;
+      }
+
+      .menu.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }    
+
+/* === PRODUCTOS === */
+    .productos {
+      padding: 40px 20px;
+    }
+
+    .productos h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+     background: #fff;
+     border-radius: 10px;
+     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+     padding: 15px;
+     text-align: center;
+     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain; /* Para que la imagen no se deforme */
+      margin-bottom: 10px;
+      border-radius: 6px;
+      background: #f9f9f9; /* fondo gris claro como catálogo */
+    }
+
+    .card h3 {
+     font-size: 16px;
+     margin: 8px 0;
+     color: #135597;
+    }
+
+    .precio {
+      font-weight: bold;
+      color: #e74c3c;
+      margin: 5px 0;
+    }
+
+    .tienda {
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+    .precio {
+      font-weight: bold;
+      color: #e74c3c;
+      margin: 5px 0;
+    }
+
+
+    /* === FORMULARIOS === */
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: #135597;
+    }
+
+    .input-group label {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      background: #fff;
+      padding: 0 6px;
+      color: #999;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: -8px;
+      font-size: 12px;
+      color: #135597;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #135597;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #0d3a66;
+    }
+
+    .success {
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      .menu {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo-container">
+      <img src="Sin título.png" alt="Logo Papelería">
+      <span>Papelería Dani</span>
+    </div>
+<!-- Botón hamburguesa -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>    
+
+    <div class="menu" id="menu">
+      <a onclick="mostrarInicio()">Inicio</a>
+
+      <div class="dropdown">
+        <a href="#">Productos ▾</a>
+        <div class="submenu">
+          <a onclick="mostrarProductos('cuadernos')">Cuadernos y libretas</a>
+          <a onclick="mostrarProductos('lapices')">Lápices y bolígrafos</a>
+          <a onclick="mostrarProductos('colores')">Colores y marcadores</a>
+          <a onclick="mostrarProductos('hojas')">Hojas y papel bond</a>
+          <a onclick="mostrarProductos('carpetas')">Carpetas y archivadores</a>
+          <a onclick="mostrarProductos('pegamento')">Pegamento y cinta adhesiva</a>
+          <a onclick="mostrarProductos('tijeras')">Tijeras y reglas</a>
+          <a onclick="mostrarProductos('mochilas')">Mochilas y estuches</a>
+          <a onclick="mostrarProductos('arte')">Material de arte</a>
+          <a onclick="mostrarProductos('oficina')">Accesorios de oficina</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <a href="#">Registros ▾</a>
+        <div class="submenu">
+          <a onclick="mostrarAgregarProducto()">Agregar Producto</a>
+          <a onclick="mostrarEliminarProducto()">Eliminar Producto</a>
+        </div>
+      </div>
+
+      <a onclick="agregarventa()">Ventas</a>
+      <div class="ventas" id="ventas"></div>
+
+    </div>
+  </nav>
+
+  <!-- CONTENIDO -->
+  <div class="productos" id="contenido">
+    <h2>Bienvenido a Papelería Dany</h2>
+    <p style="text-align:center;" >Selecciona una categoría en el menú para ver los productos. </p>
+  </div>
+
+
+  <!-- SCRIPT -->
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("show");
+    }
+
+    const dataProductos = {
+      cuadernos: [
+        {nombre: "Cuaderno Profesional", desc: "100 hojas, rayado", precio: "$59.99 MXN", img: "cuaderno.png"},
+        {nombre: "Libreta Espiral", desc: "Pequeña, 80 hojas", precio: "$45.00 MXN", img: "71CKAYUb+iL._UF894,1000_QL80_.jpg"},
+        {nombre: "Libreta Doble raya", desc: "Pequeña, 80 hojas", precio: "$45.00 MXN", img: "imag.png"},
+        {nombre: "Libreta cuadro chico", desc: "Pequeña, 80 hojas", precio: "$45.00 MXN", img: "cuadernoo.jpg"},
+        {nombre: "Libreta cuadro grande ", desc: "Pequeña, 80 hojas", precio: "$45.00 MXN", img: "descargaimg.jpg"},
+        {nombre: "Libreta de dibujo", desc: "Grande, 100 hojas", precio: "$55.00 MXN", img: "71CKAYUb+iL._UF894,1000_QL80_.jpg"},
+        {nombre: "Libreta de raya", desc: "Pequeña, 80 hojas", precio: "$45.00 MXN", img: "71CKAYUb+iL._UF894,1000_QL80_.jpg"},
+        {nombre: "Libreta de notas", desc: "Pequeña, 80 hojas", precio: "$45.00 MXN", img: "71CKAYUb+iL._UF894,1000_QL80_.jpg"},
+        {nombre: "Libreta Espiral", desc: "Pequeña, 80 hojas", precio: "$45.00 MXN", img: "71CKAYUb+iL._UF894,1000_QL80_.jpg"},
+        {nombre: "Libreta Espiral", desc: "Pequeña, 80 hojas", precio: "$45.00 MXN", img: "71CKAYUb+iL._UF894,1000_QL80_.jpg"}
+      ],
+      lapices: [
+        {nombre: "Lápiz HB", desc: "Clásico escolar", precio: "$5.00 MXN", img: "HB.png"},
+        {nombre: "Bolígrafo Azul", desc: "Tinta suave", precio: "$8.50 MXN", img: "boligrafo.png"},
+        {nombre: "Lapiz", desc: "Tinta suave", precio: "$8.50 MXN", img: "lapiz1.jpg"},
+        {nombre: "Bolígrafo negro", desc: "Tinta suave", precio: "$8.50 MXN", img: "boligrafo.png"},
+        {nombre: "Bolígrafo Azul", desc: "Tinta suave", precio: "$8.50 MXN", img: "boligrafo.png"}
+
+       ],
+      colores: [
+        {nombre: "Caja de colores 14 pzas", desc: "Colores brillantes", precio: "$60.00 MXN", img: "colores.png"},
+        {nombre: "Marcadores ", desc: "Paquete con 7", precio: "$75.00 MXN", img: "plumon.png"},
+        {nombre: "Marcadores ", desc: "Paquete con 4", precio: "$75.00 MXN", img: "plumon2.jpg"},
+        {nombre: "Marcadores ", desc: "Paquete con 5", precio: "$75.00 MXN", img: "plum3.jpg"},
+        {nombre: "Colores Crayola", desc: "Paquete con 36", precio: "$75.00 MXN", img: "colorcrayola.jpg"},
+        {nombre: "Colores Primavera", desc: "Paquete con 4", precio: "$75.00 MXN", img: "colores-primavera.webp"},
+        {nombre: "Marcadores permanentes", desc: "Paquete con 30 + 4 pzas extras", precio: "$75.00 MXN", img: "gises.jpg"},
+        {nombre: "Gises", desc: "Paquete con 8", precio: "$75.00 MXN", img: "plumon.png"},
+        {nombre: "Marcadores permanentes", desc: "Paquete con 4", precio: "$75.00 MXN", img: "plumon.png"},
+        {nombre: "Colores SMARTY", desc: "Paquete con 12", precio: "$75.00 MXN", img: "lapicolo.webp"}
+        ],
+      hojas: [
+        {nombre: "Hojas ", desc: "Paquete", precio: "$60.00 MXN", img: "hoja1.jpeg"},
+        {nombre: "Hojas ", desc: "Paquete ", precio: "$75.00 MXN", img: "hoja2.jpeg"},
+        {nombre: "Hojas ", desc: "Paquete ", precio: "$75.00 MXN", img: "hoja3.jpeg"},
+        {nombre: "Papel craf ", desc: "Paquete ", precio: "$75.00 MXN", img: "hoja4.jpeg"},
+        {nombre: "Clips ", desc: "Paquete ", precio: "$75.00 MXN", img: "hoja5.jpeg"}
+        ], 
+      carpetas: [
+        {nombre: "Carpeta", desc: "Colores", precio: "$60.00 MXN", img: "carp1.jpeg"},
+        {nombre: "Carpeta", desc: "Paquete ", precio: "$75.00 MXN", img: "carp2.jpeg"},
+        {nombre: "Carpeta", desc: "Paquete", precio: "$75.00 MXN", img: "carp3.jpeg"},
+        {nombre: "Carpeta", desc: "Paquete ", precio: "$75.00 MXN", img: "carp4.jpeg"},
+        {nombre: "Carpeta", desc: "Paquete", precio: "$75.00 MXN", img: "carp5.jpeg"}
+        ],
+      pegamento: [
+        {nombre: "Pegamento", desc: "Colores brillantes", precio: "$60.00 MXN", img: "peg1.jpeg"},
+        {nombre: "Pegamento", desc: "Paquete con 4", precio: "$75.00 MXN", img: "peg2.jpeg"},
+        {nombre: "Pegamento", desc: "Paquete con 4", precio: "$75.00 MXN", img: "peg3.jpeg"},
+        {nombre: "Pegamento", desc: "Paquete con 4", precio: "$75.00 MXN", img: "peg4.png"},
+        {nombre: "Pegamento", desc: "Paquete con 4", precio: "$75.00 MXN", img: "peg5.webp"}
+        ],
+      tijeras: [
+        {nombre: "Tijeras ", desc: "Tijeras", precio: "$60.00 MXN", img: "tijera1.jpg"},
+        {nombre: "Tijeras", desc: "Paquete", precio: "$75.00 MXN", img: "tijera3.jpg"},
+        {nombre: "Tijeras", desc: "Paquete", precio: "$75.00 MXN", img: "tijera5.jpeg"},
+        {nombre: "Tijeras", desc: "Paquete", precio: "$75.00 MXN", img: "tijera6.jpeg"},
+        {nombre: "Tijeras", desc: "Paquete", precio: "$75.00 MXN", img: "tijera7.png"}
+        ],
+      mochilas: [
+        {nombre: "Mochila", desc: "Color azul", precio: "$60.00 MXN", img: "mo1.jpg"},
+        {nombre: "Mochila hello Kity", desc: "color morada", precio: "$75.00 MXN", img: "mo2.jpg"},
+        {nombre: "Estuche", desc: "estuche para colores", precio: "$75.00 MXN", img: "mo3.jpg"},
+        {nombre: "Conjunto de mochila", desc: "Paquete ", precio: "$75.00 MXN", img: "mo4.jpg"},
+        {nombre: "Mocila", desc: "Paquete ", precio: "$75.00 MXN", img: "mo5.jpg"}
+        ]                                       
+    };
+
+  let ventasGrupos = [[]]; 
+  let grupoActivo = 0;
+
+  function mostrarProductos(categoria) {
+  const contenedor = document.getElementById("contenido");
+  if (!dataProductos[categoria]) {
+    contenedor.innerHTML = "<h2>Productos próximamente</h2>";
+    return;
+  }
+
+  let html = `
+    <h2>${categoria.charAt(0).toUpperCase() + categoria.slice(1)}</h2>
+    <p style="text-align:center; color:green; font-weight:bold;">
+      Ticket activo: Venta #${grupoActivo + 1}
+    </p>
+    <div class="grid">`;
+
+  dataProductos[categoria].forEach(prod => {
+    html += `
+      <div class="card">
+        <img src="${prod.img}" alt="${prod.nombre}">
+        <h3>${prod.nombre}</h3>
+        <p>${prod.desc}</p>
+        <p class="precio">${prod.precio}</p>
+        <button onclick="registrarVenta('${prod.nombre}', ${parseFloat(prod.precio.replace('$',''))})">
+          Vender
+        </button>
+      </div>`;
+  });
+  html += "</div>";
+  contenedor.innerHTML = html;
+}
+
+ // ===== REGISTRAR VENTA =====
+  function registrarVenta(producto, precioUnit) {
+    const cantidad = prompt(`¿Cuántos "${producto}" deseas vender?`);
+    if (!cantidad || isNaN(cantidad) || cantidad <= 0) return;
+
+    const total = cantidad * precioUnit;
+    ventasGrupos[grupoActivo].push({producto, cantidad: parseInt(cantidad), precio: precioUnit, total});
+
+    alert(`✅ Venta registrada: ${cantidad} x ${producto} = $${total.toFixed(2)} MXN`);
+
+    const opcion = confirm("¿Quieres ver el historial de ventas?");
+    if (opcion) {
+      agregarventa();
+    }
+  }
+
+// ===== MOSTRAR TODAS LAS TABLAS DE VENTAS =====
+  function agregarventa() {
+    const contenedor = document.getElementById("contenido");
+    let html = `<h2>Historial de Ventas</h2>
+      <button onclick="nuevaVenta()" style="margin-bottom:10px; padding:8px 10px; background:#135597; color:white; border:none; border-radius:5px; cursor:pointer;">
+        Nueva Venta
+      </button>`;
+
+    ventasGrupos.forEach((grupo, index) => {
+      html += `
+        <h3>Venta #${index + 1}</h3>
+        <table border="1" cellpadding="8" cellspacing="0" style="width:100%; margin-bottom:20px; text-align:center; border-collapse:collapse;">
+          <thead style="background:#135597; color:white;">
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio Unitario</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      if (grupo.length === 0) {
+        html += `<tr><td colspan="4">No hay ventas en este ticket</td></tr>`;
+      } else {
+        let suma = 0;
+        grupo.forEach(v => {
+          suma += v.total;
+          html += `
+            <tr>
+              <td>${v.producto}</td>
+              <td>${v.cantidad}</td>
+              <td>$${v.precio.toFixed(2)} MXN</td>
+              <td><b>$${v.total.toFixed(2)} MXN</b></td>
+            </tr>`;
+        });
+        html += `
+          <tr style="background:#f1c40f; font-weight:bold;">
+            <td colspan="3">TOTAL GENERAL</td>
+            <td>$${suma.toFixed(2)} MXN</td>
+          </tr>`;
+      }
+      html += `</tbody></table>`;
+    });
+
+    contenedor.innerHTML = html;
+  }
+
+    // ===== CREAR UNA NUEVA TABLA DE VENTAS =====
+  function nuevaVenta() {
+    ventasGrupos.push([]);      // agrega un nuevo grupo vacío
+    grupoActivo = ventasGrupos.length - 1; // cambiamos al grupo nuevo
+    alert("🆕 Se creó una nueva venta. Ya puedes registrar productos en ella.");
+    mostrarInicio(); // regresa al inicio para elegir productos
+  }
+
+
+  // ===== ACTUALIZAR TABLA DE VENTAS =====
+  function actualizarTablaVentas() {
+    const tabla = document.getElementById("tablaVentas");
+    const totalGeneral = document.getElementById("totalGeneral");
+    if (!tabla) return; // evita error si no estamos en historial
+
+    tabla.innerHTML = "";
+    if (ventas.length === 0) {
+      tabla.innerHTML = `<tr><td colspan="4">Aún no hay ventas registradas</td></tr>`;
+      totalGeneral.textContent = "$0.00 MXN";
+      return;
+    }
+
+    let suma = 0;
+    ventas.forEach(v => {
+      suma += v.total;
+      tabla.innerHTML += `
+        <tr>
+          <td>${v.producto}</td>
+          <td>${v.cantidad}</td>
+          <td>$${v.precio.toFixed(2)} MXN</td>
+          <td><b>$${v.total.toFixed(2)} MXN</b></td>
+        </tr>
+      `;
+    });
+
+    totalGeneral.textContent = `$${suma.toFixed(2)} MXN`;
+  }
+
+
+  // ===== INICIO =====
+  function mostrarInicio() {
+    document.getElementById("contenido").innerHTML = `
+      <h2>Bienvenido a Papelería Dany</h2>
+      <p style="text-align:center;">Selecciona una categoría en el menú para ver los productos.</p>`;
+  }
+  
+    function mostrarAgregarProducto() {
+      const contenedor = document.getElementById("contenido");
+      contenedor.innerHTML = `
+        <h2>Agregar Producto</h2>
+        <form id="agregarProductoForm">
+          <div class="input-group">
+            <input type="text" id="categoriaProducto" required placeholder=" ">
+            <label for="categoriaProducto">Categoría</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="nombreProducto" required placeholder=" ">
+            <label for="nombreProducto">Nombre del producto</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="descProducto" required placeholder=" ">
+            <label for="descProducto">Descripción</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="imgProducto" required placeholder=" ">
+            <label for="imgProducto">URL de imagen</label>
+          </div>
+          <div class="input-group">
+            <input type="number" id="precioProducto" required placeholder=" ">
+            <label for="precioProducto">Precio (MXN)</label>
+          </div>
+          <button type="submit">Agregar Producto</button>
+        </form>
+        <p id="mensajeAgregarProducto"></p>
+      `;
+
+      document.getElementById("agregarProductoForm").addEventListener("submit", function(e){
+        e.preventDefault();
+        const categoria = document.getElementById("categoriaProducto").value.toLowerCase();
+        const nombre = document.getElementById("nombreProducto").value;
+        const desc = document.getElementById("descProducto").value;
+        const img = document.getElementById("imgProducto").value;
+
+        if(!dataProductos[categoria]) dataProductos[categoria] = [];
+        dataProductos[categoria].push({nombre, desc, img});
+        document.getElementById("mensajeAgregarProducto").innerText = `✅ Producto "${nombre}" agregado en "${categoria}"`;
+        document.getElementById("mensajeAgregarProducto").className = "success";
+
+        document.getElementById("agregarProductoForm").reset();
+      });
+    }
+
+    function mostrarEliminarProducto() {
+      const contenedor = document.getElementById("contenido");
+      let html = "<h2>Eliminar Producto</h2>";
+      for(let cat in dataProductos){
+        if(dataProductos[cat].length === 0) continue;
+        html += `<h3 style="color:#135597;">${cat}</h3><ul>`;
+        dataProductos[cat].forEach((p,index)=>{
+          html += `<li>${p.nombre} <button onclick="eliminarProducto('${cat}', ${index})">Eliminar</button></li>`;
+        });
+        html += "</ul>";
+      }
+      html += `<p id="mensajeEliminarProducto"></p>`;
+      contenedor.innerHTML = html;
+    }
+
+    function eliminarProducto(categoria, index) {
+      const prodEliminado = dataProductos[categoria][index].nombre;
+      dataProductos[categoria].splice(index,1);
+      mostrarEliminarProducto();
+      document.getElementById("mensajeEliminarProducto").innerText = `❌ Producto "${prodEliminado}" eliminado correctamente`;
+      document.getElementById("mensajeEliminarProducto").className = "success";
+    }
+
+  </script>
+</body>
+</html>
